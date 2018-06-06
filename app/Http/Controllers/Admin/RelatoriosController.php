@@ -59,11 +59,16 @@ class RelatoriosController extends Controller
         if (! Gate::allows('relatorio_create')) {
             return abort(401);
         }
-        
+
         $medicos = \App\Medico::get()->pluck('nome', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
         $created_bies = \App\User::get()->pluck('name', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
+        if (auth()->user()->role_id == 1) {
+            $teams = \App\Team::get()->pluck('name', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
+        } else {
+            $teams = [];
+        }
 
-        return view('admin.relatorios.create', compact('medicos', 'created_bies'));
+        return view('admin.relatorios.create', compact('medicos', 'created_bies', 'teams'));
     }
 
     /**
@@ -97,13 +102,18 @@ class RelatoriosController extends Controller
         if (! Gate::allows('relatorio_edit')) {
             return abort(401);
         }
-        
+
         $medicos = \App\Medico::get()->pluck('nome', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
         $created_bies = \App\User::get()->pluck('name', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
+        if (auth()->user()->role_id == 1) {
+            $teams = \App\Team::get()->pluck('name', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
+        } else {
+            $teams = [];
+        }
 
         $relatorio = Relatorio::findOrFail($id);
 
-        return view('admin.relatorios.edit', compact('relatorio', 'medicos', 'created_bies'));
+        return view('admin.relatorios.edit', compact('relatorio', 'medicos', 'created_bies', 'teams'));
     }
 
     /**

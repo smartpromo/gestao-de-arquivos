@@ -21,11 +21,11 @@ class Relatorio extends Model
 {
     use SoftDeletes, FilterByUser;
 
-    protected $fillable = ['data_inicial', 'data_final', 'relatorio', 'valor_total', 'medico_id', 'created_by_id'];
+    protected $fillable = ['data_inicial', 'data_final', 'relatorio', 'valor_total', 'medico_id', 'created_by_id', 'created_by_team_id'];
     protected $hidden = [];
     public static $searchable = [
     ];
-    
+
     public static function boot()
     {
         parent::boot();
@@ -119,15 +119,15 @@ class Relatorio extends Model
     {
         $this->attributes['created_by_id'] = $input ? $input : null;
     }
-    
+
     public function medico()
     {
         return $this->belongsTo(Medico::class, 'medico_id')->withTrashed();
     }
-    
+
     public function created_by()
     {
         return $this->belongsTo(User::class, 'created_by_id');
     }
-    
+
 }

@@ -8,7 +8,7 @@
         <div class="panel-heading">
             @lang('quickadmin.qa_create')
         </div>
-        
+
         <div class="panel-body">
             <div class="row">
                 <div class="col-xs-12 form-group">
@@ -72,7 +72,21 @@
                     @endif
                 </div>
             </div>
-            
+            @if(auth()->user()->role_id == 1)
+                <div class="row">
+                    <div class="col-xs-12 form-group">
+                        {!! Form::label('created_by_team_id', trans('quickadmin.users.fields.team').'', ['class' => 'control-label']) !!}
+                        {!! Form::select('created_by_team_id', $teams, old('created_by_team_id'), ['class' => 'form-control select2']) !!}
+                        <p class="help-block"></p>
+                        @if($errors->has('created_by_team_id'))
+                            <p class="help-block">
+                                {{ $errors->first('created_by_team_id') }}
+                            </p>
+                        @endif
+                    </div>
+                </div>
+            @endif
+
         </div>
     </div>
 
@@ -86,17 +100,17 @@
     <script src="{{ url('adminlte/plugins/datetimepicker/moment-with-locales.min.js') }}"></script>
     <script src="{{ url('adminlte/plugins/datetimepicker/bootstrap-datetimepicker.min.js') }}"></script>
     <script>
-        $(function(){
-            moment.updateLocale('{{ App::getLocale() }}', {
-                week: { dow: 1 } // Monday is the first day of the week
-            });
-            
-            $('.date').datetimepicker({
-                format: "{{ config('app.date_format_moment') }}",
-                locale: "{{ App::getLocale() }}",
-            });
-            
-        });
+      $(function () {
+        moment.updateLocale('{{ App::getLocale() }}', {
+          week: {dow: 1} // Monday is the first day of the week
+        })
+
+        $('.date').datetimepicker({
+          format: "{{ config('app.date_format_moment') }}",
+          locale: "{{ App::getLocale() }}"
+        })
+
+      })
     </script>
-            
+
 @stop

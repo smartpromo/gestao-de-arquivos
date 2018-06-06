@@ -76,6 +76,20 @@
                     @endif
                 </div>
             </div>
+            @if(auth()->user()->role_id == 1)
+                <div class="row">
+                    <div class="col-xs-12 form-group">
+                        {!! Form::label('created_by_team_id', trans('quickadmin.users.fields.team').'', ['class' => 'control-label']) !!}
+                        {!! Form::select('created_by_team_id', $teams, old('created_by_team_id'), ['class' => 'form-control select2']) !!}
+                        <p class="help-block"></p>
+                        @if($errors->has('created_by_team_id'))
+                            <p class="help-block">
+                                {{ $errors->first('created_by_team_id') }}
+                            </p>
+                        @endif
+                    </div>
+                </div>
+            @endif
             
         </div>
     </div>
